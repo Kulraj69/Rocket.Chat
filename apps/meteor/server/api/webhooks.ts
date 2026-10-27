@@ -1,11 +1,10 @@
 import type { IIncomingIntegration, IIntegration, IOutgoingIntegration, IUser, RequiredField } from '@rocket.chat/core-typings';
+import { mountRouter } from '@rocket.chat/http-router';
 import { Integrations, Users } from '@rocket.chat/models';
 import { Random } from '@rocket.chat/random';
 import { isIntegrationsHooksAddSchema, isIntegrationsHooksRemoveSchema } from '@rocket.chat/rest-typings';
-import type express from 'express';
 import { Meteor } from 'meteor/meteor';
 import type { RateLimiterOptionsToCheck } from 'meteor/rate-limit';
-import { WebApp } from 'meteor/webapp';
 import _ from 'underscore';
 
 import { APIClass } from './ApiClass';
@@ -15,6 +14,7 @@ import type { FailureResult, GenericRouteExecutionContext, SuccessResult, Unavai
 import type { APIActionContext } from './router';
 import { isPlainObject } from '../../lib/utils/isPlainObject';
 import { hasPermissionAsync } from '../lib/authorization/hasPermission';
+import { httpApp } from '../lib/http/httpServer';
 import { IsolatedVMScriptEngine } from '../lib/integrations/lib/isolated-vm/isolated-vm';
 import { metrics } from '../lib/metrics';
 import { settings } from '../settings';
@@ -549,5 +549,5 @@ Api.addRoute(
 );
 
 Meteor.startup(() => {
-	(WebApp.rawConnectHandlers as unknown as ReturnType<typeof express>).use(Api.router.router);
+	mountRouter(httpApp, Api.router);
 });
