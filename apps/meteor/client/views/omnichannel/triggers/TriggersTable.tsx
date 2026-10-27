@@ -8,13 +8,13 @@ import {
 	GenericTableLoadingRow,
 	usePagination,
 	GenericNoResults,
+	GenericError,
 } from '@rocket.chat/ui-client';
 import { useTranslation, useEndpoint, useRouter } from '@rocket.chat/ui-contexts';
 import { useQuery, hashKey } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 
 import TriggersRow from './TriggersRow';
-import GenericError from '../../../components/GenericError';
 import { links } from '../../../lib/links';
 
 const TriggersTable = () => {
