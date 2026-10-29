@@ -1,15 +1,6 @@
 import { Box, TextInput, Icon, Button, Divider } from '@rocket.chat/fuselage';
 import { useMediaQuery, useOutsideClick } from '@rocket.chat/fuselage-hooks';
-import {
-	EmojiPickerCategoryHeader,
-	EmojiPickerContainer,
-	EmojiPickerPreviewArea,
-	EmojiPickerHeader,
-	EmojiPickerListArea,
-	EmojiPickerPreview,
-	useMergedRefsV2,
-	useIsVisible,
-} from '@rocket.chat/ui-client';
+import { useMergedRefsV2, useIsVisible } from '@rocket.chat/ui-client';
 import { useTranslation, usePermission, useEmojiRegistry } from '@rocket.chat/ui-contexts';
 import type { ChangeEvent, KeyboardEvent, MouseEvent, RefObject } from 'react';
 import { useLayoutEffect, useState, useEffect, useRef } from 'react';
@@ -20,10 +11,18 @@ import EmojiPickerCategoryItem from './EmojiPickerCategoryItem';
 import EmojiPickerDropdown from './EmojiPickerDropDown';
 import SearchingResult from './SearchingResult';
 import ToneSelector from './ToneSelector';
+import {
+	EmojiPickerCategoryHeader,
+	EmojiPickerContainer,
+	EmojiPickerPreviewArea,
+	EmojiPickerHeader,
+	EmojiPickerListArea,
+	EmojiPickerPreview,
+} from '../components';
 import ToneSelectorWrapper from './ToneSelector/ToneSelectorWrapper';
-import { usePreviewEmoji, useEmojiPickerData } from '../../../contexts/EmojiPickerContext';
-import { getCategoriesList, getEmojisBySearchTerm } from '../../../lib/emoji';
-import type { EmojiItem } from '../../../lib/emoji';
+import { usePreviewEmoji, useEmojiPickerData } from '../contexts/EmojiPickerContext';
+import { getCategoriesList, getEmojisBySearchTerm } from '../lib/emoji';
+import type { EmojiItem } from '../lib/types';
 
 export type EmojiPickerProps = {
 	reference: Element;

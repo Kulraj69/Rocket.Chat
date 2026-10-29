@@ -1,12 +1,11 @@
 import { useDebouncedState, useStableCallback, useLocalStorage } from '@rocket.chat/fuselage-hooks';
 import { useRoute } from '@rocket.chat/ui-contexts';
+import { EmojiPicker, EmojiPickerContext } from '@rocket.chat/ui-emoji-picker';
 import type { ReactNode, ContextType } from 'react';
-import { useState, useCallback, useMemo, useRef, useSyncExternalStore } from 'react';
+import { Suspense, useState, useCallback, useMemo, useRef, useSyncExternalStore } from 'react';
 
 import { useUpdateCustomEmoji } from './useUpdateCustomEmoji';
-import { EmojiPickerContext } from '../../contexts/EmojiPickerContext';
 import { emoji, getFrequentEmoji, createEmojiListByCategorySubscription } from '../../lib/emoji';
-import EmojiPicker from '../../views/composer/EmojiPicker';
 
 const DEFAULT_ITEMS_LIMIT = 90;
 
@@ -164,7 +163,7 @@ const EmojiPickerProvider = ({ children }: EmojiPickerProviderProps) => {
 	return (
 		<EmojiPickerContext.Provider value={contextValue}>
 			{children}
-			{emojiPicker}
+			<Suspense fallback={null}>{emojiPicker}</Suspense>
 		</EmojiPickerContext.Provider>
 	);
 };
