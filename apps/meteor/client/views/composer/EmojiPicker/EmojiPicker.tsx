@@ -10,7 +10,7 @@ import {
 	useMergedRefsV2,
 	useIsVisible,
 } from '@rocket.chat/ui-client';
-import { useTranslation, usePermission, useRoute } from '@rocket.chat/ui-contexts';
+import { useTranslation, usePermission, useRoute, useEmojiRegistry } from '@rocket.chat/ui-contexts';
 import type { ChangeEvent, KeyboardEvent, MouseEvent, RefObject } from 'react';
 import { useLayoutEffect, useState, useEffect, useRef } from 'react';
 import type { ListRange, VirtuosoHandle } from 'react-virtuoso';
@@ -22,7 +22,7 @@ import SearchingResult from './SearchingResult';
 import ToneSelector from './ToneSelector';
 import ToneSelectorWrapper from './ToneSelector/ToneSelectorWrapper';
 import { usePreviewEmoji, useEmojiPickerData } from '../../../contexts/EmojiPickerContext';
-import { emoji, getCategoriesList, getEmojisBySearchTerm } from '../../../lib/emoji';
+import { getCategoriesList, getEmojisBySearchTerm } from '../../../lib/emoji';
 import type { EmojiItem } from '../../../lib/emoji';
 
 export type EmojiPickerProps = {
@@ -43,7 +43,8 @@ const EmojiPicker = ({ reference, onClose, onPickEmoji }: EmojiPickerProps) => {
 
 	const mergedTextInputRef = useMergedRefsV2(isVisibleRef, textInputRef);
 
-	const emojiCategories = getCategoriesList();
+	const emojiRegistry = useEmojiRegistry();
+	const emojiCategories = getCategoriesList(emojiRegistry);
 
 	const canManageEmoji = usePermission('manage-emoji');
 	const customEmojiRoute = useRoute('emoji-custom');
@@ -116,10 +117,10 @@ const EmojiPicker = ({ reference, onClose, onPickEmoji }: EmojiPickerProps) => {
 		// Custom emoji should overwrite native emoji with the same name
 		// Custom emoji with name `:point_right:` should overwrite every tone
 		// Custom emoji with name `:point_right_tone1:` should overwrite only tone1, and not the original or other tones
-		if (emoji.list[`:${_emoji}:`].emojiPackage !== 'emojiCustom') {
-			for (const emojiPackage in emoji.packages) {
-				if (emoji.packages.hasOwnProperty(emojiPackage)) {
-					if (actualTone > 0 && emoji.packages[emojiPackage].toneList.hasOwnProperty(_emoji)) {
+		if (emojiRegistry.list[`:${_emoji}:`].emojiPackage !== 'emojiCustom') {
+			for (const emojiPackage in emojiRegistry.packages) {
+				if (emojiRegistry.packages.hasOwnProperty(emojiPackage)) {
+					if (actualTone > 0 && emojiRegistry.packages[emojiPackage].toneList.hasOwnProperty(_emoji)) {
 						tone = `_tone${actualTone}`;
 					}
 				}
@@ -142,7 +143,7 @@ const EmojiPicker = ({ reference, onClose, onPickEmoji }: EmojiPickerProps) => {
 		setCurrentCategory('');
 		setSearching(e.target.value !== '');
 
-		const emojisResult = getEmojisBySearchTerm(e.target.value, actualTone, recentEmojis, setRecentEmojis);
+		const emojisResult = getEmojisBySearchTerm(emojiRegistry, e.target.value, actualTone, recentEmojis, setRecentEmojis);
 
 		if (emojisResult.filter((emoji) => emoji.image).length === 0) {
 			setCurrentCategory('no-results');
