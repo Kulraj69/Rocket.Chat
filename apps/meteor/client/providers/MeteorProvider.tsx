@@ -1,4 +1,5 @@
 import { ImageGalleryContext, MarkdownTextContext, ModalProvider, TooltipProvider } from '@rocket.chat/ui-client';
+import { EmojiRegistryContext } from '@rocket.chat/ui-contexts';
 import type { ReactNode } from 'react';
 
 import ActionManagerProvider from './ActionManagerProvider';
@@ -24,6 +25,7 @@ import VideoConfProvider from './VideoConfProvider';
 import LazyImageGallery from '../components/LazyImageGallery';
 import MarkdownText from '../components/MarkdownText';
 import { OmnichannelRoomIconProvider } from '../components/RoomIcon/OmnichannelRoomIcon/provider/OmnichannelRoomIconProvider';
+import { emoji } from '../lib/emoji';
 
 export type MeteorProviderProps = {
 	children?: ReactNode;
@@ -48,19 +50,21 @@ const MeteorProvider = ({ children }: MeteorProviderProps) => (
 																<CustomSoundProvider>
 																	<DeviceProvider>
 																		<AuthorizationProvider>
-																			<EmojiPickerProvider>
-																				<OmnichannelRoomIconProvider>
-																					<UserPresenceProvider>
-																						<ActionManagerProvider>
-																							<VideoConfProvider>
-																								<MediaCallProvider>
-																									<OmnichannelProvider>{children}</OmnichannelProvider>
-																								</MediaCallProvider>
-																							</VideoConfProvider>
-																						</ActionManagerProvider>
-																					</UserPresenceProvider>
-																				</OmnichannelRoomIconProvider>
-																			</EmojiPickerProvider>
+																			<EmojiRegistryContext.Provider value={emoji}>
+																				<EmojiPickerProvider>
+																					<OmnichannelRoomIconProvider>
+																						<UserPresenceProvider>
+																							<ActionManagerProvider>
+																								<VideoConfProvider>
+																									<MediaCallProvider>
+																										<OmnichannelProvider>{children}</OmnichannelProvider>
+																									</MediaCallProvider>
+																								</VideoConfProvider>
+																							</ActionManagerProvider>
+																						</UserPresenceProvider>
+																					</OmnichannelRoomIconProvider>
+																				</EmojiPickerProvider>
+																			</EmojiRegistryContext.Provider>
 																		</AuthorizationProvider>
 																	</DeviceProvider>
 																</CustomSoundProvider>

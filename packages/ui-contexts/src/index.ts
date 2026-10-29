@@ -23,6 +23,7 @@ export { UserContext, type UserContextValue, type Fields, type FindOptions } fro
 export { UserCardContext, type UserCardContextValue } from './UserCardContext';
 export { UserPresenceContext, type UserPresenceContextValue } from './UserPresenceContext';
 export { DeviceContext, type Device, type DeviceContextValue } from './DeviceContext';
+export { EmojiRegistryContext, type EmojiRegistryContextValue, type EmojiPackages } from './EmojiRegistryContext';
 export { ActionManagerContext, type IActionManager } from './ActionManagerContext';
 
 export { useAbsoluteUrl } from './hooks/useAbsoluteUrl';
@@ -37,6 +38,7 @@ export { useConnectionStatus } from './hooks/useConnectionStatus';
 export { useCurrentModal } from './hooks/useCurrentModal';
 export { useCurrentRoutePath } from './hooks/useCurrentRoutePath';
 export { useCustomSound } from './hooks/useCustomSound';
+export { useEmojiRegistry } from './hooks/useEmojiRegistry';
 export { useEndpoint } from './hooks/useEndpoint';
 export type { EndpointFunction } from './hooks/useEndpoint';
 export { useIsLoggingIn } from './hooks/useIsLoggingIn';

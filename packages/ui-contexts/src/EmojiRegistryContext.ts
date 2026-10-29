@@ -1,4 +1,6 @@
-import type { TranslationKey } from '@rocket.chat/ui-contexts';
+import { createContext } from 'react';
+
+import type { TranslationKey } from './TranslationContext';
 
 type EmojiPackage = {
 	emojiCategories: Array<{ key: string; i18n: TranslationKey }>;
@@ -44,3 +46,10 @@ export type EmojiPackages = {
 		  }
 	>;
 };
+
+export type EmojiRegistryContextValue = EmojiPackages;
+
+export const EmojiRegistryContext = createContext<EmojiRegistryContextValue>({
+	packages: {},
+	list: {},
+});
